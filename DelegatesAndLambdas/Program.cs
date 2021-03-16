@@ -14,7 +14,7 @@ var heroes = new List<Hero>
 };
 
 // You can build the function using parenthesis or not
-var heroesWhoCanFly = HeroesFilterWithoutDelegate(heroes, hero => hero.CanFly);
+var heroesWhoCanFly = HeroesFilterWithPredefinedDelegate(heroes, hero => hero.CanFly);
 var heroesWhoCanFlyString = string.Join(", ", heroesWhoCanFly);
 Console.WriteLine("HEROES WHO CAN FLY");
 Console.WriteLine(heroesWhoCanFlyString);
@@ -31,12 +31,25 @@ var superHeroesWithFirstLetterW = GenericFilter(new[] { "Spiderman", "Batman", "
 var evenNumbers = GenericFilter(new[] { 1, 2, 3, 5, 6, 7, 8, 9, 23, 45 }, number => number % 2 == 0).ToList();
 
 // IEnumerable is just forward only and read only
-static IEnumerable<Hero> HeroesFilterWithoutDelegate(IEnumerable<Hero> heroes, Func<Hero, bool> myMethodName)
+// Using predefined delegate 
+// Func<InputParameter, ReturnValue> genericFilter
+static IEnumerable<Hero> HeroesFilterWithPredefinedDelegate(IEnumerable<Hero> heroes, Func<Hero, bool> myMethodName)
 {
     // Same function than FilterHeroesWhoCanFly/HeroesWhoLastNameIsUnknown
-    // but converter to LINQ. Notice this is the group form, we can call the function "myMethodName"
+    // but converter to LINQ. Notice this is the group form, we can call the function "genericFilter"
     // without parameter
     return heroes.Where(myMethodName).ToList();
+}
+
+
+// Generic Filter using Predefined Delegate
+// Using predefined delegate
+static IEnumerable<T> FilterWithPredefinedDelegate<T>(IEnumerable<T> items, Func<T, bool> genericFilter)
+{
+    // Same function than FilterHeroesWhoCanFly/HeroesWhoLastNameIsUnknown
+    // but converter to LINQ. Notice this is the group form, we can call the function "genericFilter"
+    // without parameter
+    return items.Where(genericFilter).ToList();
 }
 
 static IEnumerable<Hero> HeroesFilterWithDelegate(IEnumerable<Hero> heroes, Filter myMethodName)
